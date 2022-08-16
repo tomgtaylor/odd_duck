@@ -1,17 +1,20 @@
 'use strict'
 
+//------------------------------ Array to hold all objects
+
 let allProducts = []
 
-//------------------------------ Constructor function
+//------------------------------ Constructor function and declared variables
 
 function Product(name, imgUrl) {
     this.name = name;
     this.imgUrl = imgUrl;
-    this.clicked = 0;
-    this.shown = 0;
+    this.clicks = 0;
+    this.views = 0;
     
     allProducts.push(this);
 }
+
 let bag = new Product('bag', 'bag.jpg');
 let banana = new Product('banana', 'banana.jpg');
 let bathroom = new Product('bathroom', 'bathroom.jpg');
@@ -32,51 +35,155 @@ let unicorn = new Product('unicorn', 'unicorn.jpg');
 let waterCan = new Product('water-can', 'water-can.jpg');
 let wineGlass = new Product('wine-glass', 'wine-glass.jpg');
 
-//------------------------------ 
+// console.log(allProducts[15]);
 
+//------------------------------ Variable: Counts total rounds. ++ each time an image is clicked
 
 let currentRound = 0;
 
-//------------------------------- Random Image function
+//------------------------------- Function: Generates random Image
 
 function randomImage() {
     return Math.floor(Math.random() * allProducts.length);
 }
 
-//------------------------------- DOM Manipulation
+//------------------------------- Event Listener for each button
 
-// let product = allProducts[randomImage()]; // uses function inside of images array.
-// let img = document.getElementById('productImage');
-// img.src = `img/${product.imgUrl}`
+let button1 = document.getElementById('product-button1');
+button1.addEventListener('click', showNewImage);
 
-//------------------------------- Event Listener
+let button2 = document.getElementById('product-button2');
+button2.addEventListener('click', showNewImage);
 
-let button = document.getElementById('productButton');
-button.addEventListener('click', showNewImage);
+let button3 = document.getElementById('product-button3');
+button3.addEventListener('click', showNewImage);
 
-//------------------------------- Function showNewImage
+//------------------------------- Function: display new 3 images 
 
-function showNewImage() {
+function showNewImage(event) {  //event is being clicked
+    // console.log(event);
+    
+    // Selects random object (image) from array.
+    let product1 = allProducts[randomImage()]; 
+    let product2 = allProducts[randomImage()];  
+    let product3 = allProducts[randomImage()];
 
-    let product = allProducts[randomImage()];   // Gets random product.
+    product1.views++;   // Increments views per object randomly selected.
+    product2.views++;
+    product3.views++;
+    
+    let image1 = document.getElementById('product-image1'); 
+    image1.src = `img/${product1.imgUrl}`;
+    image1.alt = product1.name;
+    
+    let image2 = document.getElementById('product-image2');
+    image2.src = `img/${product2.imgUrl}`;
+    image2.alt = product2.name;
+    
+    let image3 = document.getElementById('product-image3');
+    image3.src = `img/${product3.imgUrl}`;
+    image3.alt = product3.name;
 
-    let img = document.getElementById('productImage');   // Selects the image.
-    img.src = `img/${product.imgUrl}`;   // Makes image the product.
+    console.log(event);
 
-    product.clicked++;
-    console.log(product);
     currentRound++;
 
-    if (currentRound === 25) {
-        button.remove.addEventListener('click', showNewImage);
+        //-----------------------------------For loop: to get clicked total per object
+
+    let altName = event.target.alt;
+    for (let i = 0; i < allProducts.length; i++){
+        if (allProducts[i].name == altName) {
+
+            console.log(allProducts[i].name);
+
+            allProducts[i].clicks++;
+        }
     }
 
+        if (currentRound === 5) {
+        button1.removeEventListener('click', showNewImage);
+        button2.removeEventListener('click', showNewImage);
+        button3.removeEventListener('click', showNewImage);
+    }
 }
-
-//-------------------------------
 
 showNewImage();
 
-console.log(bag.imgUrl);
+//------------------------------- Function:
 
-//-------------------------------
+//------------------------------- 
+
+console.log(allProducts);
+
+
+
+
+
+
+
+// //------------------------------- Function showNewImage
+
+// function showNewImage(event) {
+//     let altName = event.target.alt;
+//     for (let i=0; i<allProducts.length; i++){
+//         if (allProducts[i].name == altName) {
+//             allProducts[i].clicked++;
+//         }
+//     }
+//     console.log(event.target);
+//     let product1 = allProducts[randomImage()];     // Gets random product from array.
+//     let product2 = allProducts[randomImage()];     
+//     let product3 = allProducts[randomImage()];     
+//     product1.views++;   //increments object views.
+//     product2.views++;
+//     product3.views++;
+    
+//     let image1 = document.getElementById('product-image1');     // Selects the image.
+//     image1.src = `img/${product1.imgUrl}`;      // Makes image the product.
+//     image1.alt = product1.name;
+
+//     let image2 = document.getElementById('product-image2');     // Selects the image.
+//     image2.src = `img/${product2.imgUrl}`;      // Makes image the product.
+//     image2.alt = product2.name;
+
+//     let image3 = document.getElementById('product-image3');     // Selects the image.
+//     image3.src = `img/${product3.imgUrl}`;      // Makes image the product.
+//     image3.alt = product3.name;    
+    
+//     currentRound++;
+        
+//         if (currentRound === 5) {
+//         button.removeEventListener('click', showNewImage);
+        
+//     }
+//         console.log(allProducts);
+// }
+
+// // //------------------------------- Call function showNewImage
+// // showNewImage();
+
+
+
+
+
+
+
+
+
+
+
+
+// //------------------------------- Function showResults
+
+// // let results = document.getElementById('results-button');
+// // results.addEventListener('click', displayResults);
+
+// // function displayResults() {
+// //     for(let i = 0; i < allProducts.length; i++) {
+// //         let product = allProducts[i];
+// //         // let 
+// //         product.innerHtml = `'${product.name}' was clicked ${product.clicked} times, and was shown ${product.shown} times.`
+
+// //     }
+// // }
+
