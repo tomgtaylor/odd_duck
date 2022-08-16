@@ -47,6 +47,23 @@ function randomImage() {
     return Math.floor(Math.random() * allProducts.length);
 }
 
+//------------------------------ Function upon page load...show new image..
+function onPageLoad() {
+    let product1 = allProducts[randomImage()]; 
+    let product2 = allProducts[randomImage()];  
+    let product3 = allProducts[randomImage()];
+    
+    let image1 = document.getElementById('product-image1'); 
+    image1.src = `img/${product1.imgUrl}`;
+    
+    let image2 = document.getElementById('product-image2');
+    image2.src = `img/${product2.imgUrl}`;
+    
+    let image3 = document.getElementById('product-image3');
+    image3.src = `img/${product3.imgUrl}`;
+}
+onPageLoad();
+
 //------------------------------- Event Listener for each button
 
 let button1 = document.getElementById('product-button1');
@@ -58,6 +75,8 @@ button2.addEventListener('click', showNewImage);
 let button3 = document.getElementById('product-button3');
 button3.addEventListener('click', showNewImage);
 
+
+
 //------------------------------- Function: display new 3 images 
 
 function showNewImage(event) {  //event is being clicked
@@ -67,6 +86,12 @@ function showNewImage(event) {  //event is being clicked
     let product1 = allProducts[randomImage()]; 
     let product2 = allProducts[randomImage()];  
     let product3 = allProducts[randomImage()];
+
+    // let array = ;
+
+    // while(product1 === product2 || product1 === product3 || product2 === product3){
+
+    // }
 
     product1.views++;   // Increments views per object randomly selected.
     product2.views++;
@@ -107,7 +132,7 @@ function showNewImage(event) {  //event is being clicked
     }
 }
 
-showNewImage();
+// showNewImage();
 
 //------------------------------- Function:
 
