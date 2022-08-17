@@ -101,7 +101,7 @@ console.log(imageElements);
     imageElements[2].src = image3.src; 
 
     console.log(image1, image2, image3);
-    
+
    image1.views++;
    image2.views++;
    image3.views++; 
@@ -129,14 +129,14 @@ eventAddListener();
 function clickFunction(event){     
 
     for (let i=0; i < imageArray.length; i++) {
-        if (event.target === imageArray[i]){  // removed .id
+        if (event.target.id === imageArray[i].id){  // removed .id
                 //if id from the event.target is same as the index in the object array, it increments.
             imageArray[i].clicks++;
             rounds++;
         }
     }
 
-    if (rounds === 5){           // once clicked set number of times, removes eventAddLsteners for each
+    if (rounds == 25){           // once clicked set number of times, removes eventAddLsteners for each
         imageElements.forEach(function(img){
             img.removeEventListener('click', clickFunction);
         });
@@ -149,27 +149,33 @@ function clickFunction(event){
 
 //------------------------------ Function - results using for loop
 
+
 function results() {
-    let nameTotal = [];
-    let clickTotal = [];
-    let viewTotal = [];
+    // let nameTotal = [];
+    // let clickTotal = [];
+    // let viewTotal = [];
+    let ul = document.getElementById('list');
 
     for(let i=0; i< imageArray.length; i++){
-        nameTotal.push(imageArray[i].name);
-        clickTotal.push(imageArray[i].clicks);
-        viewTotal.push(imageArray[i].views);
+        // nameTotal.push(imageArray[i].name);
+        // clickTotal.push(imageArray[i].clicks);
+        // viewTotal.push(imageArray[i].views);
 
-        let name = imageArray[i].name;
-        let clicks = imageArray[i].clicks;
-        let views = imageArray[i].views;
+        // let name = imageArray[i].name;
+        // let clicks = imageArray[i].clicks;
+        // let views = imageArray[i].views;
 
-        let results = (`${name}: Clicks = ${clicks}. Views = ${views}`);
+        let li = document.createElement('li')
+        li.append(`${imageArray[i].name.toUpperCase()} has ${imageArray[i].clicks} clicks and ${imageArray[i].views} views.`);
+        ul.appendChild(li);
+
     }
 }
 
 //------------------------------ 
 
 renderImages();
+// results();
 
 
 
