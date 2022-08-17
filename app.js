@@ -1,8 +1,12 @@
 'use strict'
 
-//------------------------------ Array to hold all objects
+//------------------------------ Array to hold objects
 
-let imageArray = [];
+let imageArray = [];    // 
+
+//------------------------------ 
+
+let imageElements = document.querySelectorAll('img'); //grabs img HTML tags. Use forEach below.
 
 //------------------------------ Variable to count rounds
 
@@ -10,70 +14,170 @@ let rounds = 0;
 
 //------------------------------ Constructor function images. Has two parameters.
 
-function Image(name, id) {
-    this.name = name;
-    this.id = id;       
-    this.src = `img/${id}`;
+function Image(imageName) {
+    this.name = imageName.slice(0, imageName.indexOf('.')); //extracts the filename from file extension. Found on stackoverflow
+    this.id = imageName;       
+    this.src = `img/${imageName}`;
+    // this.shown = false;
     this.clicks = 0;
     this.views = 0;
 
-    imageArray.push(this);  // Pushes each Image object into array on line 5.
+    imageArray.push(this);  
+    // Pushes each Image object into array on line 5.
 }
 
-//------------------------------ Array for new products. Each includes two arguments.
+//------------------------------ New products. Each includes two arguments.
 
-let newProducts = [
+let newImages = [   
 
-    new Product('bag', 'bag.jpg'),
-    new Product('banana', 'banana.jpg'),
-    new Product('bathroom', 'bathroom.jpg'),
-    new Product('boots', 'boots.jpg'),
-    new Product('breakfast', 'breakfast.jpg'),
-    new Product('bubblegum', 'bubblegum.jpg'),
-    new Product('chair', 'chair.jpg'),
-    new Product('cthulhu', 'cthulhu.jpg'),
-    new Product('dog-duck', 'dog-duck.jpg'),
-    new Product('dragon', 'dragon.jpg'),
-    new Product('pen', 'pen.jpg'),
-    new Product('pet-sweep', 'pet-sweep.jpg'),
-    new Product('scissors', 'scissors.jpg'),
-    new Product('shark', 'shark.jpg'),
-    new Product('sweep', 'sweep.png'),  // only .png image
-    new Product('tauntaun', 'tauntaun.jpg'),
-    new Product('unicorn', 'unicorn.jpg'),
-    new Product('water-can', 'water-can.jpg'),
-    new Product('wine-glass', 'wine-glass.jpg'),
+    'bag.jpg',
+    'banana.jpg',
+    'bathroom.jpg',
+    'boots.jpg',
+    'breakfast.jpg',
+    'bubblegum.jpg',
+    'chair.jpg',
+    'cthulhu.jpg',
+    'dog-duck.jpg',
+    'dragon.jpg',
+    'pen.jpg',
+    'pet-sweep.jpg',
+    'scissors.jpg',
+    'shark.jpg',
+    'sweep.png',  // only .png image
+    'tauntaun.jpg',
+    'unicorn.jpg',
+    'water-can.jpg',
+    'wine-glass.jpg',
 ];
     
-//------------------------------ Function: generates a random index/image in array on line 5.
+for (let i=0; i < newImages.length; i++){
+    new Image(newImages[i]);
+    // imageArray.push(new Image(newImages[i]));
+};
+
+    //------------------------------ Function: generates a random index/image in array on line 5.
 
 function randomImage() {
     let index = Math.floor(Math.random() * imageArray.length); 
-    return imageArray[i];
+    return imageArray[index];
+    // return Math.floor(Math.random() * imageArray.length); 
 }
 
 //------------------------------ Function to display images
 
-function displayImages() {
+function renderImages() {   //previously displayImages function. 
+
     let image1 = randomImage();
     let image2 = randomImage();
+    let image3 = randomImage();
+
+    console.log(image1, image2, image3);
+
+      // Use of while loops to ensure 3 unique images.
+    while (image1 === image2 || image1 === image3 || image2 === image3) {
+        image2 = randomImage();
+        image3 = randomImage();
+    }
+            // previous while loops
+        // while (image1.id === image2.id || image1.id === image3.id) { 
+        //     image1 = randomImage();
+        // }
+        // while (image2.id === image1.id || image2.id === image3.id) {
+        //     image2 = randomImage();
+        // }
+        // while (image3.id === image1.id || image3.id === image2.id) {
+        //     image3 = randomImage();
+        // }
+console.log(imageElements);
+
+    imageElements[0].id = image1.id;
+    imageElements[0].src = image1.src; 
+
+    imageElements[1].id = image2.id;
+    imageElements[1].src = image2.src; 
+
+    imageElements[2].id = image3.id;
+    imageElements[2].src = image3.src; 
+
+    console.log(image1, image2, image3);
     
+   image1.views++;
+   image2.views++;
+   image3.views++; 
+
+    //    for (let i=0; i<imageArray.length; i++){
+    //     imageArray[i].shown = false;
+    //    }
+
+    //    image1.shown = true;
+    //    image2.shown = true;
+    //    image3.shown = true;
+}
+
+//------------------------------ Function - addEventListener to each imageElement
+
+function eventAddListener() {
+    imageElements.forEach(function(img){
+        img.addEventListener('click', clickFunction); // adds event listener to each imageElement.
+    } );
+}
+eventAddListener();
+
+//------------------------------ // Function - increments clicks and rounds, and removes
+
+function clickFunction(event){     
+
+    for (let i=0; i < imageArray.length; i++) {
+        if (event.target === imageArray[i]){  // removed .id
+                //if id from the event.target is same as the index in the object array, it increments.
+            imageArray[i].clicks++;
+            rounds++;
+        }
+    }
+
+    if (rounds === 5){           // once clicked set number of times, removes eventAddLsteners for each
+        imageElements.forEach(function(img){
+            img.removeEventListener('click', clickFunction);
+        });
+
+        //could do a message that voting is finished.
+    }
+  renderImages();  //calls renderImages function 
+     
+}
+
+//------------------------------ Function - results using for loop
+
+function results() {
+    let nameTotal = [];
+    let clickTotal = [];
+    let viewTotal = [];
+
+    for(let i=0; i< imageArray.length; i++){
+        nameTotal.push(imageArray[i].name);
+        clickTotal.push(imageArray[i].clicks);
+        viewTotal.push(imageArray[i].views);
+
+        let name = imageArray[i].name;
+        let clicks = imageArray[i].clicks;
+        let views = imageArray[i].views;
+
+        let results = (`${name}: Clicks = ${clicks}. Views = ${views}`);
+    }
 }
 
 //------------------------------ 
 
-//------------------------------ 
-
-//------------------------------ 
-
-//------------------------------ 
+renderImages();
 
 
 
 
 
 
-// let allProducts = []
+//           Older code
+
 
 // //------------------------------ Constructor function and declared variables
 
@@ -210,14 +314,6 @@ function displayImages() {
 // //------------------------------- 
 
 // console.log(allProducts);
-
-
-
-
-
-
-
-
 
 
 
