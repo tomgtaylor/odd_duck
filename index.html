@@ -9,25 +9,39 @@
 </head>
 
 <body>
-   
+    <header>
+        <h1 id="h1-title">ODD DUCK</h1>
+    </header>
+
     <main>
-        <section>
-            <button onclick="voteResults();"> To view results</button>
-            <!-- button fires results function in js -->
-            <ul id="list"> </ul>
 
-            <!-- <div id="resultsData"></div> -->
+        <h2 id="h2-title">Vote on your favorite images 25 times</h2>
 
-        </section>
+        <div id="images-div">
+            <img class="images" height="300" width="300">
+            <img class="images" height="300" width="300">
+            <img class="images" height="300" width="300">
+        </div>
 
-        <img height="300" width="300">
-        <img height="300" width="300">
-        <img height="300" width="300">
+        <button id="button-results" onclick="voteResults();"> View Results</button>
 
+        <div id="container">
+            <section id="section-ul">
+                <!-- button fires results function in js -->
+                <ul id="list"> </ul>
+            </section>
 
-        <canvas id="myChart" height="300" width="500"> </canvas>
-
+            <div id="chart-div">
+                <canvas id="myChart" > </canvas>
+            </div>        
+            
+        </div>     
+        
     </main>  
+
+    <footer>
+        <p>&copy Tom Gray</p>
+    </footer>
 
     <script src="app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
