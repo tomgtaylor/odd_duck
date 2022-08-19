@@ -4,7 +4,7 @@
 
 let imageArray = [];    // 
 
-//------------------------------ 
+//------------------------------ Some global variables
 
 let imageElements = document.querySelectorAll('img'); //grabs img HTML tags. Use forEach below.
 
@@ -133,49 +133,137 @@ function clickFunction(event){
                 //if id from the event.target is same as the index in the object array, it increments.
             imageArray[i].clicks++;
             rounds++;
-        }
+            break;
+        } 
     }
 
-    if (rounds == 25){           // once clicked set number of times, removes eventAddLsteners for each
+    if (rounds == 5){           // once clicked set number of times, removes eventAddLsteners for each
         imageElements.forEach(function(img){
             img.removeEventListener('click', clickFunction);
+            voteResults();
         });
 
         //could do a message that voting is finished.
     }
   renderImages();  //calls renderImages function 
+//   if (rounds === 25) {
+    // voteResults();
+    // }
      
 }
 
-//------------------------------ Function - results using for loop
+//------------------------------ Chart variables. 
 
+let nameTotal = []; // voteResults() function/for loop pushes data into these empty arrays. 152-168
+let clickTotal = [];
+let viewTotal = [];
 
-function results() {
-    // let nameTotal = [];
-    // let clickTotal = [];
-    // let viewTotal = [];
+//------------------------------ Function - display results. Creates element <li> per each.
+
+function voteResults() {
+
     let ul = document.getElementById('list');
 
     for(let i=0; i< imageArray.length; i++){
-        // nameTotal.push(imageArray[i].name);
-        // clickTotal.push(imageArray[i].clicks);
-        // viewTotal.push(imageArray[i].views);
 
-        // let name = imageArray[i].name;
+        nameTotal.push(imageArray[i].name);
+        clickTotal.push(imageArray[i].clicks);
+        viewTotal.push(imageArray[i].views);
+
+        // let name = imageArray[i].name;  // Variables not needed because I referenced the array directly.
         // let clicks = imageArray[i].clicks;
         // let views = imageArray[i].views;
 
         let li = document.createElement('li')
         li.append(`${imageArray[i].name.toUpperCase()} has ${imageArray[i].clicks} clicks and ${imageArray[i].views} views.`);
         ul.appendChild(li);
-
     }
-}
 
-//------------------------------ 
+    let data = {        // chartjs info
+
+        labels: nameTotal,
+        datasets: [{
+          label: 'Clicks',
+          data: clickTotal,
+          backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+          borderColor: ['rgb(255, 99, 132)'],
+          borderWidth: 1},
+        {
+          label: 'Views',
+          data: viewTotal,
+          backgroundColor: ['rgba(255, 159, 64, 0.2)'],
+          borderColor: ['rgb(255, 159, 64)'],
+          borderWidth: 1
+        }]
+      };
+    
+      const config = {
+          type: 'bar',
+          data: data,
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                    }
+                }
+            },
+        };
+        
+        let chartElements = document.getElementById('myChart'); // global variables for chart
+        let ctx = chartElements.getContext('2d');
+        const myChart = new Chart(ctx, config);
+    }
+    
+//------------------------------ Call functions
 
 renderImages();
 // results();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     if (rounds === 5) {
+//         let votingChart = new Chart(ctx, {
+//             type: 'bar',
+//             data: {
+//                 labels: nameTotal,
+//                 datasets: [{
+//                     label: 'Clicks',
+//                     data: clickTotal,
+//                     backgroundColor: 'rgb(25, 119, 80)'
+//                 }, {
+//                     label: 'Views',
+//                     data: viewTotal,
+//                     backgroundColor: '#A63F37',
+//                 }]
+//             },
+//             options: {
+//                 scales: {
+//                     y: {
+//                         beginAtZero: true
+//                     }
+//                 }
+//             }
+//         });
+//     }
+
+// }
+
+
 
 
 
