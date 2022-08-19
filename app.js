@@ -137,18 +137,18 @@ function clickFunction(event){
         } 
     }
 
-    if (rounds == 5){           // once clicked set number of times, removes eventAddLsteners for each
+    if (rounds === 25){      // once clicked set number of times, removes eventAddLsteners for each
         imageElements.forEach(function(img){
             img.removeEventListener('click', clickFunction);
-            voteResults();
+            // voteResults();
         });
 
         //could do a message that voting is finished.
     }
   renderImages();  //calls renderImages function 
-//   if (rounds === 25) {
-    // voteResults();
-    // }
+  if (rounds === 25) {
+    voteResults();
+    }
      
 }
 
@@ -217,51 +217,12 @@ function voteResults() {
 //------------------------------ Call functions
 
 renderImages();
-// results();
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-//     if (rounds === 5) {
-//         let votingChart = new Chart(ctx, {
-//             type: 'bar',
-//             data: {
-//                 labels: nameTotal,
-//                 datasets: [{
-//                     label: 'Clicks',
-//                     data: clickTotal,
-//                     backgroundColor: 'rgb(25, 119, 80)'
-//                 }, {
-//                     label: 'Views',
-//                     data: viewTotal,
-//                     backgroundColor: '#A63F37',
-//                 }]
-//             },
-//             options: {
-//                 scales: {
-//                     y: {
-//                         beginAtZero: true
-//                     }
-//                 }
-//             }
-//         });
-//     }
-
-// }
 
 
 
