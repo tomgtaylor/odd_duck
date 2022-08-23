@@ -18,10 +18,9 @@ function Image(imageName) {
     this.name = imageName.slice(0, imageName.indexOf('.')); //extracts the filename from file extension. Found on stackoverflow
     this.id = imageName;       
     this.src = `img/${imageName}`;
-    // this.shown = false;
     this.clicks = 0;
     this.views = 0;
-
+    
     imageArray.push(this);  
     // Pushes each Image object into array on line 5.
 }
@@ -79,16 +78,7 @@ function renderImages() {   //previously displayImages function.
         image2 = randomImage();
         image3 = randomImage();
     }
-            // previous while loops
-        // while (image1.id === image2.id || image1.id === image3.id) { 
-        //     image1 = randomImage();
-        // }
-        // while (image2.id === image1.id || image2.id === image3.id) {
-        //     image2 = randomImage();
-        // }
-        // while (image3.id === image1.id || image3.id === image2.id) {
-        //     image3 = randomImage();
-        // }
+
 console.log(imageElements);
 
     imageElements[0].id = image1.id;
@@ -106,13 +96,6 @@ console.log(imageElements);
    image2.views++;
    image3.views++; 
 
-    //    for (let i=0; i<imageArray.length; i++){
-    //     imageArray[i].shown = false;
-    //    }
-
-    //    image1.shown = true;
-    //    image2.shown = true;
-    //    image3.shown = true;
 }
 
 //------------------------------ Function - addEventListener to each imageElement
@@ -177,6 +160,8 @@ function voteResults() {
         let li = document.createElement('li')
         li.append(`${imageArray[i].name.toUpperCase()} has ${imageArray[i].clicks} clicks and ${imageArray[i].views} views.`);
         ul.appendChild(li);
+
+        saveItems();  // Saves totals per voting period to local storage.
     }
 
     let data = {        // chartjs info
@@ -218,6 +203,34 @@ function voteResults() {
 
 renderImages();
 
+//------------------------------ Add local storage 
+
+                        // saves data to local storage
+function saveItems() {      // invoked on 164 in votResults() function.
+    // Step 1a
+    let info = JSON.stringify(imageArray);
+    // Step 1b
+    return localStorage.setItem('key', info);
+}
+
+                        // gets data from local storage
+function getItems() {
+    // Step 2a
+    let getItem = localStorage.getItem('key');
+    // Step 2b
+    if (getItem){
+        imageArray = JSON.parse(getItem);
+    } else {
+        for (let i=0; i < newImages.length; i++){
+            new Image(newImages[i]);
+            // imageArray.push(new Image(newImages[i]));
+        };
+    }
+    // let parsedVersion = JSON.parse(stringifyVersion);
+    // return JSON.parse(getItem);
+}
+
+getItems();
 
 
 
